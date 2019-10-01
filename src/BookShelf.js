@@ -16,7 +16,7 @@ class BookShelf extends React.Component {
                     {books.filter((book) => (
                         book.shelf === filterKey
                     )).map((book) => (
-                        <li>
+                        <li key={book.id}>
                             <Book book={book}/>
                       </li>
                     ))}
