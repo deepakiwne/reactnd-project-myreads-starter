@@ -7,7 +7,7 @@ import Book from './Book'
 class Search extends React.Component {
 
     state = {
-      books: [],
+      searcResultBooks: [],
       userInput: ''
     }
 
@@ -20,14 +20,34 @@ class Search extends React.Component {
       event.preventDefault();
 
       BooksAPI.search(this.state.userInput)
-      .then((books) => {
+      .then((searcResultBooks) => {
+
+        // Cleanup search results before changing state
+        this.cleanUp(searcResultBooks)
+
         this.setState(() => ({
-          books
+          searcResultBooks
         }))
       })
     }
 
+    cleanUp = (books) => {
+      // Add shelf field
+      books.map((rb) => (
+        rb.shelf = 'none'
+      ))
+
+      books.map((rb) => (
+        this.props.books.map((sb) => (
+          rb.id === sb.id ? rb.shelf = sb.shelf : ''
+        ))
+      ))
+    }
+
     render() {
+
+      console.log('Passed Books', this.props.books)
+
         return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -56,7 +76,7 @@ class Search extends React.Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-                {this.state.books.map((book) => (
+                {this.state.searcResultBooks.map((book) => (
                   <li key={book.id}><Book book={book}/></li>
                 ))}
               </ol>
