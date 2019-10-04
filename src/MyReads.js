@@ -7,7 +7,7 @@ class MyReads extends React.Component {
 
     render() {
         
-        const books = this.props.books
+        const {books, onMove} = this.props
 
         console.log('books', books)
 
@@ -18,9 +18,9 @@ class MyReads extends React.Component {
           </div>
           <div className="list-books-content">
             <div>
-                <BookShelf title="Currently Reading" filterKey='currentlyReading' books={books} />
-                <BookShelf title="Want To Read" filterKey='wantToRead' books={books} />
-                <BookShelf title="Read" filterKey='read' books={books} />
+                <BookShelf title="Currently Reading" filterKey='currentlyReading' books={books} onMove={onMove}/>
+                <BookShelf title="Want To Read" filterKey='wantToRead' books={books} onMove={onMove}/>
+                <BookShelf title="Read" filterKey='read' books={books} onMove={onMove}/>
             </div>
           </div>
           <div className="open-search">

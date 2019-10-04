@@ -6,7 +6,7 @@ class BookShelf extends React.Component {
 
     render() {
 
-        const {title, filterKey, books} = this.props;
+        const {title, filterKey, books, onMove} = this.props;
 
         return (
         <div className="bookshelf">
@@ -17,7 +17,7 @@ class BookShelf extends React.Component {
                         book.shelf === filterKey
                     )).map((book) => (
                         <li key={book.id}>
-                            <Book book={book}/>
+                            <Book book={book} onMove={onMove}/>
                       </li>
                     ))}
                 </ol>

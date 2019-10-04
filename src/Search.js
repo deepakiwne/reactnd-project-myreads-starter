@@ -48,6 +48,8 @@ class Search extends React.Component {
 
       console.log('Passed Books', this.props.books)
 
+      const onMove = this.props.onMove
+
         return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -77,7 +79,7 @@ class Search extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
                 {this.state.searcResultBooks.map((book) => (
-                  <li key={book.id}><Book book={book}/></li>
+                  <li key={book.id}><Book book={book} onMove={onMove}/></li>
                 ))}
               </ol>
             </div>

@@ -20,14 +20,43 @@ class BooksApp extends React.Component {
       })
   }
 
+  move = (book, event) => {
+    console.log('Book', book)
+    console.log('Target', event.target)
+
+    const shelf = event.target.value
+
+    if(book.shelf !== shelf){
+      // Update API
+      BooksAPI.update(book, shelf)
+      .then((message) => {
+        console.log('Update Status', message)
+      })
+
+      // Update State
+      // If book not in shelf, add it
+      this.setState(prevState => ({
+        books: book.shelf === 'none' ? [...prevState.books, book] : prevState.books
+      }))
+
+      // Update shelf
+      // TODO: Can we avoid two setState calls?
+      this.setState((prevState) => (
+        prevState.books.map((b) => (
+          b.id === book.id ? b.shelf = shelf : ''
+        ))
+      ))
+    }
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
-          <MyReads books={this.state.books}/>
+          <MyReads books={this.state.books} onMove={this.move}/>
         )} />
         <Route path='/search' render={() => (
-          <Search books={this.state.books}/>
+          <Search books={this.state.books} onMove={this.move}/>
         )} />
       </div>
     )
