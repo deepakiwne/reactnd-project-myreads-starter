@@ -12,12 +12,10 @@ class Search extends React.Component {
     }
 
     handleUserTyping = event => {
-      this.setState({ userInput: event.target.value });
+      this.setState({ userInput: event.target.value }, this.onSearch)
     }
 
-    onSearch = event => {
-
-      event.preventDefault();
+    onSearch = () => {
 
       BooksAPI.search(this.state.userInput)
       .then((searcResultBooks) => {
@@ -28,6 +26,14 @@ class Search extends React.Component {
         this.setState(() => ({
           searcResultBooks
         }))
+      })
+      .catch((err) => {
+        console.log("Search Error", err)
+
+        // On error clear search result
+        this.setState({
+          searcResultBooks: []
+        })
       })
     }
 
@@ -67,7 +73,7 @@ class Search extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <form onSubmit={this.onSearch}>
+                <form>
                   <input
                     type="text"
                     placeholder="Search by title or author"
