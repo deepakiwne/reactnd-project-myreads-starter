@@ -19,25 +19,20 @@ class Search extends React.Component {
 
       BooksAPI.search(this.state.userInput)
       .then((searcResultBooks) => {
-
-        // Cleanup search results before changing state
-        this.cleanUp(searcResultBooks)
-
-        this.setState(() => ({
-          searcResultBooks
-        }))
+        this.processSearchResult(searcResultBooks)
       })
       .catch((err) => {
-        console.log("Search Error", err)
-
-        // On error clear search result
-        this.setState({
-          searcResultBooks: []
-        })
+        this.processSearchError(err)
       })
     }
 
-    cleanUp = (books) => {
+    processSearchResult = (books) => {
+      
+      // Cleanup search results before changing state
+
+      // handle missing thumbnails or author
+      books = books.filter(b => b.imageLinks !== undefined && b.authors !== undefined)
+
       // Add shelf field
       books.map((rb) => (
         rb.shelf = 'none'
@@ -48,11 +43,28 @@ class Search extends React.Component {
           rb.id === sb.id ? rb.shelf = sb.shelf : ''
         ))
       ))
+
+      this.setState(() => ({
+        searcResultBooks : books
+      }))
+    }
+
+    processSearchError = (err) => {
+      console.log("Search Error", err)
+
+      // On error clear search result
+      this.setState({
+        searcResultBooks: []
+      })
+    }
+
+    onSubmit = (event) => {
+      event.preventDefault()
     }
 
     render() {
 
-      console.log('Passed Books', this.props.books)
+      //console.log('Passed Books', this.props.books)
 
       const onMove = this.props.onMove
 
@@ -73,7 +85,7 @@ class Search extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <form>
+                <form onSubmit={this.onSubmit}>
                   <input
                     type="text"
                     placeholder="Search by title or author"
