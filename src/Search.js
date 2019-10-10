@@ -29,7 +29,6 @@ class Search extends React.Component {
     processSearchResult = (books) => {
       
       // Cleanup search results before changing state
-
       // handle missing thumbnails or author
       books = books.filter(b => b.imageLinks !== undefined && b.authors !== undefined)
 
@@ -63,8 +62,6 @@ class Search extends React.Component {
     }
 
     render() {
-
-      //console.log('Passed Books', this.props.books)
 
       const onMove = this.props.onMove
 

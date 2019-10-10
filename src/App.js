@@ -21,9 +21,6 @@ class BooksApp extends React.Component {
   }
 
   move = (book, event) => {
-    console.log('Book', book)
-    console.log('Target', event.target)
-
     const shelf = event.target.value
 
     if(book.shelf !== shelf){

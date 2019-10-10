@@ -9,8 +9,6 @@ class MyReads extends React.Component {
         
         const {books, onMove} = this.props
 
-        console.log('books', books)
-
         return (
         <div className="list-books">
           <div className="list-books-title">
